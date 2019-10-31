@@ -30,6 +30,7 @@ import net.openid.appauth.internal.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.concurrent.Executors;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -272,7 +273,7 @@ public class AuthorizationServiceConfiguration {
                 openIdConnectDiscoveryUri,
                 connectionBuilder,
                 callback)
-                .execute();
+                .execute(Executors.newSingleThreadExecutor());
     }
 
     /**
