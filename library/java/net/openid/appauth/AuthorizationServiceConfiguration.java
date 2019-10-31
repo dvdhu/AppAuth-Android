@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.concurrent.Executors;
 
 /**
  * Configuration details required to interact with an authorization service.
@@ -272,7 +273,7 @@ public class AuthorizationServiceConfiguration {
                 openIdConnectDiscoveryUri,
                 connectionBuilder,
                 callback)
-                .execute();
+                .executeOnExecutor(Executors.newSingleThreadExecutor());
     }
 
     /**

@@ -54,4 +54,4 @@ dependencies {
     compile 'joda-time:joda-time:2.9.7'
 }
 
-apply from: '../config/style.gradle'
+//apply from: '../config/style.gradle'

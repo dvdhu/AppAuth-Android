@@ -200,6 +200,12 @@ public final class AuthorizationException extends Exception {
          */
         public static final AuthorizationException INVALID_REGISTRATION_RESPONSE =
                 generalEx(7, "Invalid registration response");
+
+        /**
+         * Indicates a http request error occurred between [400,599]
+         */
+        public static final AuthorizationException HTTP_NETWORK_ERROR =
+            generalEx(8, "HTTP error between [400,599]");
     }
 
     /**
@@ -277,6 +283,7 @@ public final class AuthorizationException extends Exception {
          */
         public static final AuthorizationException STATE_MISMATCH =
                 generalEx(9, "Response state param did not match request state");
+
 
         private static final Map<String, AuthorizationException> STRING_TO_EXCEPTION =
                 exceptionMapByString(

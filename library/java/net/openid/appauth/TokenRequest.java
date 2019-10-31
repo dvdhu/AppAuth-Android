@@ -203,6 +203,13 @@ public class TokenRequest {
     @NonNull
     public final Map<String, String> additionalParameters;
 
+
+    /**
+     * Used for track the request.
+     */
+    @NonNull
+    public final String uuId;
+
     /**
      * Creates instances of {@link TokenRequest}.
      */
@@ -234,6 +241,10 @@ public class TokenRequest {
 
         @NonNull
         private Map<String, String> mAdditionalParameters;
+
+        @NonNull
+        private String mUuId;
+
 
         /**
          * Creates a token request builder with the specified mandatory properties.
@@ -400,6 +411,16 @@ public class TokenRequest {
             return this;
         }
 
+
+        /**
+         * Specifies the uuId for the token request, which must not be null or empty.
+         */
+        @NonNull
+        public Builder setUuId(@NonNull String uuId) {
+            mUuId = checkNotEmpty(uuId, "clientId cannot be null or empty");
+            return this;
+        }
+
         /**
          * Produces a {@link TokenRequest} instance, if all necessary values have been provided.
          */
@@ -426,15 +447,17 @@ public class TokenRequest {
             }
 
             return new TokenRequest(
-                    mConfiguration,
-                    mClientId,
-                    grantType,
-                    mRedirectUri,
-                    mScope,
-                    mAuthorizationCode,
-                    mRefreshToken,
-                    mCodeVerifier,
-                    Collections.unmodifiableMap(mAdditionalParameters));
+                mConfiguration,
+                mClientId,
+                grantType,
+                mRedirectUri,
+                mScope,
+                mAuthorizationCode,
+                mRefreshToken,
+                mCodeVerifier,
+                Collections.unmodifiableMap(mAdditionalParameters),
+                mUuId);
+
         }
 
         private String inferGrantType() {
@@ -451,15 +474,16 @@ public class TokenRequest {
     }
 
     private TokenRequest(
-            @NonNull AuthorizationServiceConfiguration configuration,
-            @NonNull String clientId,
-            @NonNull String grantType,
-            @Nullable Uri redirectUri,
-            @Nullable String scope,
-            @Nullable String authorizationCode,
-            @Nullable String refreshToken,
-            @Nullable String codeVerifier,
-            @NonNull Map<String, String> additionalParameters) {
+        @NonNull AuthorizationServiceConfiguration configuration,
+        @NonNull String clientId,
+        @NonNull String grantType,
+        @Nullable Uri redirectUri,
+        @Nullable String scope,
+        @Nullable String authorizationCode,
+        @Nullable String refreshToken,
+        @Nullable String codeVerifier,
+        @NonNull Map<String, String> additionalParameters,
+        @NonNull String uuId) {
         this.configuration = configuration;
         this.clientId = clientId;
         this.grantType = grantType;
@@ -469,6 +493,7 @@ public class TokenRequest {
         this.refreshToken = refreshToken;
         this.codeVerifier = codeVerifier;
         this.additionalParameters = additionalParameters;
+        this.uuId = uuId;
     }
 
     /**

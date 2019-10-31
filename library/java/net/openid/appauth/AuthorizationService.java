@@ -49,6 +49,8 @@ import java.net.URLConnection;
 import java.util.Map;
 
 
+
+
 /**
  * Dispatches requests to an OAuth2 authorization service. Note that instances of this class
  * _must be manually disposed_ when no longer required, to avoid leaks
@@ -402,6 +404,8 @@ public class AuthorizationService {
 
                 Map<String, String> headers = mClientAuthentication
                         .getRequestHeaders(mRequest.clientId);
+                headers.put("x-request-id", mRequest.uuId);
+
                 if (headers != null) {
                     for (Map.Entry<String,String> header : headers.entrySet()) {
                         conn.setRequestProperty(header.getKey(), header.getValue());
@@ -427,6 +431,13 @@ public class AuthorizationService {
                     is = conn.getInputStream();
                 } else {
                     is = conn.getErrorStream();
+                    if (conn.getResponseCode() >= 400 && conn.getResponseCode() <= 599) {
+                        mException = AuthorizationException.fromTemplate(
+                            GeneralErrors.HTTP_NETWORK_ERROR, new Throwable("[400-599] happens"));
+                    } else {
+                        mException = AuthorizationException.fromTemplate(
+                            GeneralErrors.NETWORK_ERROR, new Throwable(conn.getResponseCode() + " happens"));
+                    }
                 }
                 String response = Utils.readInputStream(is);
                 return new JSONObject(response);
