@@ -273,7 +273,7 @@ public class AuthorizationServiceConfiguration {
                 openIdConnectDiscoveryUri,
                 connectionBuilder,
                 callback)
-                .execute(Executors.newSingleThreadExecutor());
+                .executeOnExecutor(Executors.newSingleThreadExecutor());
     }
 
     /**
