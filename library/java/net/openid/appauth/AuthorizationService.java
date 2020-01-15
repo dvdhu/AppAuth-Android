@@ -399,12 +399,12 @@ public class AuthorizationService {
                                 .openConnection(mRequest.configuration.tokenEndpoint);
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                conn.setRequestProperty("x-request-id", mRequest.uuId + "");
                 addJsonToAcceptHeader(conn);
                 conn.setDoOutput(true);
 
                 Map<String, String> headers = mClientAuthentication
                         .getRequestHeaders(mRequest.clientId);
-                headers.put("x-request-id", mRequest.uuId);
 
                 if (headers != null) {
                     for (Map.Entry<String,String> header : headers.entrySet()) {
