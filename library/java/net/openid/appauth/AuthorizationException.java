@@ -206,6 +206,18 @@ public final class AuthorizationException extends Exception {
          */
         public static final AuthorizationException HTTP_NETWORK_ERROR =
             generalEx(8, "HTTP error between [400,599]");
+
+        /**
+         * Indicates a http ErrorStream is null
+         */
+        public static final AuthorizationException HTTP_NULL_ERRORSTREAM =
+            generalEx(9, "HTTP error stream is null");
+
+        /**
+         * Indicates other error happens
+         */
+        public static final AuthorizationException OTHER_ERROR =
+            generalEx(10, "Other error");
     }
 
     /**
