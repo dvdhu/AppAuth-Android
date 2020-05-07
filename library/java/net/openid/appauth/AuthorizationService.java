@@ -439,8 +439,15 @@ public class AuthorizationService {
                             GeneralErrors.NETWORK_ERROR, new Throwable(conn.getResponseCode() + " happens"));
                     }
                 }
-                String response = Utils.readInputStream(is);
-                return new JSONObject(response);
+                if (is != null) {
+                    String response = Utils.readInputStream(is);
+                    return new JSONObject(response);
+                } else {
+                    mException = AuthorizationException.fromTemplate(
+                        GeneralErrors.HTTP_NULL_ERRORSTREAM, new Exception("request: " + conn.getURL() + " inputStream is null"));
+                    return null;
+                }
+
             } catch (IOException ex) {
                 Logger.debugWithStack(ex, "Failed to complete exchange request");
                 mException = AuthorizationException.fromTemplate(
@@ -449,6 +456,10 @@ public class AuthorizationService {
                 Logger.debugWithStack(ex, "Failed to complete exchange request");
                 mException = AuthorizationException.fromTemplate(
                         GeneralErrors.JSON_DESERIALIZATION_ERROR, ex);
+            } catch (Exception ex) {
+                Logger.debugWithStack(ex, "Failed to complete exchange request");
+                mException = AuthorizationException.fromTemplate(
+                    GeneralErrors.OTHER_ERROR, ex);
             } finally {
                 Utils.closeQuietly(is);
             }
