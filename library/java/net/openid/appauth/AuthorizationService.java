@@ -502,6 +502,12 @@ public class AuthorizationService {
                                 GeneralErrors.JSON_DESERIALIZATION_ERROR,
                                 jsonEx));
                 return;
+            } catch (Exception ex) {
+                mCallback.onTokenRequestCompleted(null,
+                    AuthorizationException.fromTemplate(
+                        GeneralErrors.TOKEN_RESPONSE_CONSTRUCTION_ERROR,
+                        ex));
+                return;
             }
 
             Logger.debug("Token exchange with %s completed",
